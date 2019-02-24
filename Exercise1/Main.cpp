@@ -34,7 +34,11 @@ int main()
 		myfile << "Album : " << a_song.album << "\n";
 		myfile << "Track : " << a_song.track << "\n";
 		myfile << "Year  : " << a_song.releaseYear << "\n";
-		myfile << "Genre : " << a_song.genre << "\n";
+		if (a_song.genre == 8)
+		{
+			myfile << "Genre : Rock" << "\n";
+		};
+		
 		myfile.close();
 
 	}
