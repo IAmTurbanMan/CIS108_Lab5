@@ -1,2 +1,6 @@
-This is a line.
-This is another line.
+Song  : Green River
+Artist: Creedence Clearwater Revival
+Album : Green River
+Track : 1
+Year  : 1969
+Genre : 8

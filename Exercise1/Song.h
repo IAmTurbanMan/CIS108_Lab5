@@ -9,7 +9,7 @@ typedef struct _Song
 	char album[64];
 	uint16_t track;
 	uint32_t releaseYear;
-	typedef enum _genre
+	enum genre
 	{
 		Blues = 0,
 		Country,
