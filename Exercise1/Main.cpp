@@ -7,14 +7,24 @@
 #include "Song.h"
 #include "MusicDB.h"
 
+using namespace std;
+
 int main()
 {
-//	std::cout << "add  : Add a new song to the music database\n";
-//	std::cout << "list : List the songs in the music database\n";
-//	std::cout << "save : Save the music databse\n";
-//	std::cout << "help : Display this menu\n";
-//	std::cout << "exit : Exit this program\n";
+	cout << "add  : Add a new song to the music database\n";
+	cout << "list : List the songs in the music database\n";
+	cout << "save : Save the music databse\n";
+	cout << "help : Display this menu\n";
+	cout << "exit : Exit this program\n";
+	cout << "\n";
+	cout << "Please make a choice: ";
 
+	cin >> string operation;
+
+
+
+
+	
 	
 	Song a_song
 	{
