@@ -3,10 +3,10 @@
 #include <string>
 
 
-namespace structure
+namespace metadata
 {
 
-	typedef struct _Song
+	struct Song
 	{
 		char title[64];
 		char artist[64];
@@ -25,5 +25,5 @@ namespace structure
 			Pop,
 			Rock
 		} genre;
-	} Song;
+	};
 }
