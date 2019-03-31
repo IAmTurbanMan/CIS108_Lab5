@@ -11,8 +11,8 @@ namespace metadata
 		char title[64];
 		char artist[64];
 		char album[64];
-		uint8_t track;
-		uint16_t releaseYear;
+		int track;
+		int releaseYear;
 		enum genre
 		{
 			Blues = 0,

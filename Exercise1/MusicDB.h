@@ -5,10 +5,14 @@
 
 using namespace std;
 
+void programLoad(string fileName);
+
 void addSong();
 
-void saveSong(string database);
+void saveSong(metadata::Song& s, string fileName);
 
-void listSong(string database);
+void listSong();
+
+void clearSong(string fileName);
 
 void menu();

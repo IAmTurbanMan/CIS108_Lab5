@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <algorithm>
 #include "Song.h"
 #include "MusicDB.h"
 
@@ -12,46 +13,66 @@ using namespace metadata;
 
 int main()
 {	
+	programLoad("MusicDatabase.txt");
+
+	Song aSong;
+
 	while (true)
 	{
 		menu();
 		cout << "\n" << "enter selection: ";
 		string selection;
 		cin >> selection;
+		transform(selection.begin(), selection.end(), selection.begin(), ::tolower);
+
 		cout << "\n";
 		cin.ignore();
 
-		if (selection == "add" || selection == "Add")
+		if (selection == "add")
 		{
 			cout << "add song to the database.\n";
 			addSong();
 		}
 
-		if (selection == "save" || selection == "Save")
+		if (selection == "save")
 		{
 			cout << "save song to the database.\n";
-			saveSong("MusicDatabase.txt");
+			saveSong(aSong, "MusicDatabase.txt");
 		}
 
-		if (selection == "list" || selection == "List")
+		if (selection == "list")
 		{
 			cout << "list songs in the database.\n";
-			listSong("MusicDatabase.txt");
+			listSong();
 		}
 
-		if (selection == "menu" || selection == "Menu")
+		if (selection == "menu")
 		{
 			menu();
 		}
 
-		if (selection == "X" || selection == "x")
+		if (selection == "clear")
 		{
-			break;
+			string yesOrNo;
+			transform(yesOrNo.begin(), yesOrNo.end(), yesOrNo.begin(), ::tolower);
+			cout << "Are you sure you want to clear the database? Y/N: ";
+			cin >> yesOrNo;
+
+			if (yesOrNo == "y")
+			{
+				clearSong("MusicDatabase.txt");
+				cout << "Database cleared.\n";
+			}
+
+			else if (yesOrNo == "n")
+			{
+				continue;
+			}
 		}
 
-		else
+		if (selection == "x")
 		{
-			cout << "\n" << "Please enter a valid command.\n";
+			break;
 		}
 	}
 

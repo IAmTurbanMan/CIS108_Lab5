@@ -1,11 +1,32 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
+#include <algorithm>
 #include "MusicDB.h"
 #include "Song.h"
 
 using namespace std;
+
 metadata::Song aSong;
+
+vector <metadata::Song> mySongs;
+
+void programLoad(string fileName)
+{
+	metadata::Song aSong;
+	ifstream musicDatabase;
+	mySongs.clear();
+	char ch;
+	
+	musicDatabase.open(fileName, ios::in | ios::binary);
+	while (musicDatabase.is_open() && musicDatabase.peek() != EOF)
+	{
+		musicDatabase.read((char*)& aSong, sizeof(aSong));
+		mySongs.push_back(aSong);
+	}
+	musicDatabase.close();
+}
 
 void addSong()											//function to add a song to the database
 {
@@ -20,145 +41,134 @@ void addSong()											//function to add a song to the database
 	cout << "Enter release year: ";
 	cin >> aSong.releaseYear;							//input into  release year
 	cout << " Blues\n" << " Country\n" << " Electronic\n" << " Folk\n" << " Hip Hop\n" << " Jazz\n" << " Latin\n" << " Pop\n" << " Rock\n";
-	cout << "Choose a genre: ";
+	cout << "Choose a genre: ";							//list genres
 
 	string genreString;
 	
-	while (true)
+	while (true)										
 	{
-		cin >> genreString;
+		getline (cin, genreString);						//read a whole line of input
+		transform(genreString.begin(), genreString.end(), genreString.begin(), ::tolower); //convert the string genreString to lowercase
+
 
 		//a series of if statements to read a string and input the string into the genre field of the struct.
-		//I hope this is how to do it
-
-		if (genreString == "Blues" || genreString == "blues")
+		
+		
+		if (genreString == "blues")
 		{
 			aSong.genre = aSong.Blues;
 			break;
 		}
 
-		else if (genreString == "Electronic" || genreString == "electronic")
+		else if (genreString == "electronic")
 		{
 			aSong.genre = aSong.Electronic;
 			break;
 		}
 
-		else if (genreString == "Country" || genreString == "country")
+		else if (genreString == "country")
 		{
 			aSong.genre = aSong.Country;
 			break;
 		}
 
-		else if (genreString == "Folk" || genreString == "folk")
+		else if (genreString == "folk")
 		{
 			aSong.genre = aSong.Folk;
 			break;
 		}
 
-		else if (genreString == "Hip Hop" || genreString == "hip hop" || genreString == "Hip hop")
+		else if (genreString == "hip hop" || genreString == "hiphop")
 		{
 			aSong.genre = aSong.HipHop;
 			break;
 		}
 
-		else if (genreString == "Jazz" || genreString == "jazz")
+		else if (genreString == "jazz")
 		{
 			aSong.genre = aSong.Jazz;
 			break;
 		}
 
-		else if (genreString == "Latin" || genreString == "latin")
+		else if (genreString == "latin")
 		{
 			aSong.genre = aSong.Latin;
 			break;
 		}
 
-		else if (genreString == "Pop" || genreString == "pop")
+		else if (genreString == "pop")
 		{
 			aSong.genre = aSong.Pop;
 			break;
 		}
 
-		else if (genreString == "Rock" || genreString == "rock")
+		else if (genreString == "rock")
 		{
 			aSong.genre = aSong.Rock;
 			break;
 		}
+	}
 
-		else
-		{
-			cout << "Please enter a genre from the list above.";
-		}
+  	mySongs.push_back (aSong);
+}
+
+void saveSong(metadata::Song& aSong, string fileName)
+{
+
+	ofstream musicDatabase;
+	musicDatabase.open(fileName, ios::out | ios::binary);
+	auto vectorCount = mySongs.begin();
+	while (vectorCount != mySongs.end())
+	{
+		metadata::Song aSong = *vectorCount;
+		musicDatabase.write((char*)&aSong, sizeof(aSong));
+		vectorCount++;
 	}
 }
 
-void saveSong(string database)
+void listSong()
 {
-	ofstream outFile;
+	int vectorCount = 0;
+	vector <metadata::Song>::iterator songCount;
+	metadata::Song aSong;
 
-	outFile.open(database, ios::out | ios::app);
-	outFile << "Title : " << aSong.title << "\n";
-	outFile << "Artist: " << aSong.artist << "\n";
-	outFile << "Album : " << aSong.album << "\n";
-	outFile << "Track : " << aSong.track << "\n";
-	outFile << "Year  : " << aSong.releaseYear << "\n";
-
-	if (aSong.genre == 0)
+	for (songCount = mySongs.begin(); songCount < mySongs.end(); songCount++)
 	{
-		outFile << "Genre : Blues\n";
+		aSong = *songCount;
+		cout << "#" << vectorCount + 1 << "\n";
+		cout << "Title : " << aSong.title << "\n";
+		cout << "Artist: " << aSong.artist << "\n";
+		cout << "Album : " << aSong.album << "\n";
+		cout << "Track : " << aSong.track << "\n";
+		cout << "Year  : " << aSong.releaseYear << "\n";
+		if (aSong.genre == 0)
+			cout << "Genre : Blues\n";
+		if (aSong.genre == 1)
+			cout << "Genre : Country\n";
+		if (aSong.genre == 2)
+			cout << "Genre : Electronic\n";
+		if (aSong.genre == 3)
+			cout << "Genre : Folk\n";
+		if (aSong.genre == 4)
+			cout << "Genre : Hip Hop\n";
+		if (aSong.genre == 5)
+			cout << "Genre : Jazz\n";
+		if (aSong.genre == 6)
+			cout << "Genre : Latin\n";
+		if (aSong.genre == 7)
+			cout << "Genre : Pop\n";
+		if (aSong.genre == 8)
+			cout << "Genre : Rock\n";
+		vectorCount++;
 	}
-
-	if (aSong.genre == 1)
-	{
-		outFile << "Genre : Country\n";
-	}
-
-	if (aSong.genre == 2)
-	{
-		outFile << "Genre : Electronic\n";
-	}
-
-	if (aSong.genre == 3)
-	{
-		outFile << "Genre : Folk\n";
-	}
-
-	if (aSong.genre == 4)
-	{
-		outFile << "Genre : Hip Hop\n";
-	}
-
-	if (aSong.genre == 5)
-	{
-		outFile << "Genre : Jazz\n";
-	}
-
-	if (aSong.genre == 6)
-	{
-		outFile << "Genre : Latin\n";
-	}
-
-	if (aSong.genre == 7)
-	{
-		outFile << "Genre : Pop\n";
-	}
-
-	if (aSong.genre == 8)
-	{
-		outFile << "Genre : Rock\n";
-	}
-	outFile << "\n";
-	outFile.close();
 }
 
-void listSong(string database)
+void clearSong(string fileName)
 {
-	ifstream inFile(database);
-	string line;
-	while (getline(inFile, line))
-	{
-		cout << line << "\n";
-	}
+	mySongs.clear();			// clear the vector
+	fstream musicDatabase;
+	musicDatabase.open(fileName, ios::out | ios::trunc);
+	musicDatabase.close();
 }
 
 void menu()
@@ -166,6 +176,7 @@ void menu()
 	cout << "add  : add a song to the database\n";
 	cout << "list : list the songs in the database\n";
 	cout << "save : save the songs to the database\n";
+	cout << "clear: clear the song database\n";
 	cout << "menu : display this menu\n";
 	cout << "x    : exit the program\n";
 }
